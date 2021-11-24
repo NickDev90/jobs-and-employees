@@ -1,12 +1,29 @@
 import React from 'react';
+import { useEffect, useState } from 'react/cjs/react.development';
+import api from '../../modules/api/api';
+import { EMPLOYEES, JOBS } from '../../modules/api/endpoints';
 
-const Employees = () => {
+function Employees () {
+    const [response, setResponse] = useState(null);
+
+    useEffect( () => {
+        api.fetch(EMPLOYEES).then( data  => {
+            console.log(data);
+            setResponse(data)
+        })  
+    }, []) 
+
     return (
         <div>
-            Employees component
-            
+            Employees compo
+
+            {   response &&
+                response.map( res => <div key={res.id}>{res.name}</div>)
+            }
+
+
         </div>
     );
-};
+}
 
 export default Employees;

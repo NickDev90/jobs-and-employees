@@ -1,10 +1,10 @@
-import Employees from "./Components/Employees/employees";
-import Jobs from "./Components/Jobs/jobs";
+import Jobs from "./Components/Jobs/Jobs";
+import Employees from "./Components/Employees/Employees";
 
 
 function App() {
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'space-around'}}>
       <Jobs/>
       <Employees/>
     </div>

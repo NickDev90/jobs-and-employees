@@ -1,27 +1,39 @@
 import React from 'react';
-import { useEffect, useState } from 'react/cjs/react.development';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react/cjs/react.development';
+import { apiActions } from '../../modules/api/actions';
 import api from '../../modules/api/api';
-import { EMPLOYEES, JOBS } from '../../modules/api/endpoints';
+import { JOBS } from '../../modules/api/endpoints';
 
-function Jobs () {
-    const [response, setResponse] = useState(null);
+const Jobs = () => {
 
-    useEffect( () => {
-        api.fetch(EMPLOYEES).then( data  => {
-            console.log(data);
-            setResponse(data)
-        })  
-    }, []) 
+    const state = useSelector(state => state.api.jobs);
+    const dispatch = useDispatch();
+    console.log(state);
+
+    useEffect(async () => {
+        try {
+            dispatch(apiActions.fetch(JOBS));
+
+            const data = await api.fetch(JOBS);
+
+            dispatch(apiActions.fetchSuccess(JOBS, data));
+        } catch(e) {
+            dispatch(apiActions.fetchFailure(JOBS, e))
+        }
+
+
+    }, [])
 
     return (
         <div>
-            {   response &&
-                response.map( res => <div key={res.id}>{res.name}</div>)
+            
+            {   state.data &&
+                state.data.map( res => <div key={res.id}>{res.title}</div>)
             }
-
-
         </div>
     );
-}
+};
 
 export default Jobs;
