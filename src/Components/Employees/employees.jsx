@@ -18,7 +18,7 @@ function Employees () {
             Employees compo
 
             {   response &&
-                response.map( res => <div key={res.id}>{res.name}</div>)
+                response.map( res => <div key={res.id}>{res.name}<img style={{display: 'block', width: '50px'}} src={res.avatar}/></div>)
             }
 
 
