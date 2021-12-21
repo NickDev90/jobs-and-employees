@@ -1,28 +1,26 @@
 import React from 'react';
-import { useEffect, useState } from 'react/cjs/react.development';
-import api from '../../modules/api/api';
-import { EMPLOYEES, JOBS } from '../../modules/api/endpoints';
+import { useEffect } from 'react/cjs/react.development';
+import { EMPLOYEES } from '../../modules/api/endpoints';
+import { Container } from "@mui/material";
+import ProfileGrid from './ProfileGrid';
+import useFetch from '../../hooks/useFetch';
+
+
+const drawerWidth = 240;
 
 function Employees () {
-    const [response, setResponse] = useState(null);
+    const {response, performFetch} = useFetch(EMPLOYEES);
+    const {loading, data} = response;
 
     useEffect( () => {
-        api.fetch(EMPLOYEES).then( data  => {
-            console.log(data);
-            setResponse(data)
-        })  
-    }, []) 
+        performFetch();
+    }, [performFetch]) 
+
 
     return (
-        <div>
-            Employees compo
-
-            {   response &&
-                response.map( res => <div key={res.id}>{res.name}<img style={{display: 'block', width: '50px'}} src={res.avatar}/></div>)
-            }
-
-
-        </div>
+        <Container>
+            <ProfileGrid profiles={data} loading={loading}/>
+        </Container>
     );
 }
 
